@@ -1,0 +1,1 @@
+# azure-vnet-hub-spoke-base-lab
