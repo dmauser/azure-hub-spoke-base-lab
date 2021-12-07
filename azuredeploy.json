@@ -15,6 +15,22 @@
                 "description": "The default is to allow SSH access from any source Public IP (*). To restric access it, please specify your Public IP address with CIDR. For single IP add 1.1.1.1/32."
             }
         },
+        "deployHubVPNGateway": {
+            "type": "string",
+            "defaultValue": "Yes",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "deployOnpremisesVPNGateway": {
+            "type": "string",
+            "defaultValue": "Yes",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
         "gatewaySku": {
             "type": "string",
             "defaultValue": "VpnGw1",
@@ -40,20 +56,46 @@
                 "description": "Select VPN Gateway Generation."
             }
         },
+        "enableBgp": {
+            "type": "string",
+            "defaultValue": "true",
+            "allowedValues": [
+                "true",
+                "false" 
+            ]           
+        },
         "sharedKey": {
             "type": "securestring",
             "metadata": {
                 "description": "The shared key used to VPN tunnel between the two Azure and OnPrem VPN Gateways."
             }
         },
+        "deployHubERGateway": {
+            "type": "string",
+            "defaultValue": "Yes",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "connect-to-ExpressRouteCircuit": {
+            "type": "string",
+            "defaultValue": "Yes",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
         "ExpressRouteEnvironmentName": {
             "type": "String",
+            "defaultValue": "null",
             "metadata": {
                 "description": "Add the environment name such as AVS, HLI, Skytap, RemoteLab representing On-premises location"
             }
         },
         "expressRouteCircuitID": {
             "type": "String",
+            "defaultValue": "null",
             "metadata": {
                 "description": "Specify ExpressRoute Circuit Resource ID"
             }
@@ -74,6 +116,14 @@
             "metadata": {
                 "description": "Add your ExpressRoute Authorization Key in case you have answered Yes on Use Authorization Key"
             }
+        },
+        "deployAzureRouteServer": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
         },
         "location": {
             "type": "string",
@@ -97,18 +147,18 @@
             "type": "object",
             "defaultValue": {
                 "hubName": "Az-Hub",
-                "addressSpacePrefix": "10.0.1.0/24",
+                "addressSpacePrefix": "10.0.0.0/24",
                 "subnetName": "subnet1",
-                "subnet1Prefix": "10.0.1.0/27",
-                "gatewaySubnetPrefix": "10.0.1.32/27",
-                "AzureFirewallPrefix": "10.0.1.64/26",
-                "rssubnetPrefix": "10.0.1.128/27",
+                "subnet1Prefix": "10.0.0.0/27",
+                "gatewaySubnetPrefix": "10.0.0.32/27",
+                "AzureFirewallPrefix": "10.0.0.64/26",
+                "rssubnetPrefix": "10.0.0.128/27",
                 "spoke1Name": "Az-Spk1",
-                "spoke1AddressSpacePrefix": "10.0.2.0/24",
-                "spoke1Subnet1Prefix": "10.0.2.0/27",
+                "spoke1AddressSpacePrefix": "10.0.1.0/24",
+                "spoke1Subnet1Prefix": "10.0.1.0/27",
                 "spoke2Name": "Az-Spk2",
-                "spoke2AddressSpacePrefix": "10.0.3.0/24",
-                "spoke2Subnet1Prefix": "10.0.3.0/27"
+                "spoke2AddressSpacePrefix": "10.0.2.0/24",
+                "spoke2Subnet1Prefix": "10.0.2.0/27"
             }
         }
     },
@@ -440,6 +490,7 @@
             }
         },
         {
+            "condition": "[equals(parameters('deployOnpremisesVPNGateway'),'yes')]",
             "name": "[variables('OnPrem').gatewayName]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
@@ -462,6 +513,9 @@
                     "vpnGatewayGeneration": {
                         "value": "[parameters('vpnGatewayGeneration')]"
                     },
+                    "enableBgp": {
+                        "value": "[parameters('enableBgp')]"
+                    },
                     "asn": {
                         "value": "[parameters('Onprem').asn]"
                     },
@@ -473,6 +527,7 @@
             }
         },
         {
+            "condition": "[equals(parameters('deployHubVPNGateway'),'yes')]",
             "name": "[variables('Azure').gatewayName]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
@@ -495,6 +550,9 @@
                     "vpnGatewayGeneration": {
                         "value": "[parameters('vpnGatewayGeneration')]"
                     },
+                    "enableBgp": {
+                        "value": "[parameters('enableBgp')]"
+                    },
                     "asn": {
                         "value": "[variables('Azure').asn]"
                     },
@@ -506,6 +564,7 @@
             }
         },
         {
+            "condition": "[equals(parameters('deployOnpremisesVPNGateway'),'yes')]",
             "name": "vpnconnections",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
@@ -534,11 +593,12 @@
                     },
                     "AzureConnectionName": {
                         "value": "[variables('Azure').connectionName]"
-                    }                    
+                    }
                 }
             }
         },
         {
+            "condition": "[equals(parameters('deployHubERGateway'),'yes')]",
             "name": "[variables('Azure').ergatewayName]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
@@ -563,6 +623,7 @@
             }
         },
         {
+            "condition": "[equals(parameters( 'connect-to-ExpressRouteCircuit'),'yes')]",
             "name": "erconnections",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
@@ -595,6 +656,7 @@
             }
         },
         {
+            "condition": "[equals(parameters('deployAzureRouteServer'),'yes')]",
             "name": "routeServer",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
