@@ -17,18 +17,18 @@
         },
         "deployHubVPNGateway": {
             "type": "string",
-            "defaultValue": "Yes",
+            "defaultValue": "true",
             "allowedValues": [
-                "Yes",
-                "No"
+                "true",
+                "false"
             ]
         },
         "deployOnpremisesVPNGateway": {
             "type": "string",
-            "defaultValue": "Yes",
+            "defaultValue": "true",
             "allowedValues": [
-                "Yes",
-                "No"
+                "true",
+                "false"
             ]
         },
         "gatewaySku": {
@@ -66,24 +66,25 @@
         },
         "sharedKey": {
             "type": "securestring",
+            "defaultValue": "P@assw@d",
             "metadata": {
                 "description": "The shared key used to VPN tunnel between the two Azure and OnPrem VPN Gateways."
             }
         },
         "deployHubERGateway": {
             "type": "string",
-            "defaultValue": "Yes",
+            "defaultValue": "true",
             "allowedValues": [
-                "Yes",
-                "No"
+                "true",
+                "false"
             ]
         },
         "connect-to-ExpressRouteCircuit": {
             "type": "string",
-            "defaultValue": "Yes",
+            "defaultValue": "true",
             "allowedValues": [
-                "Yes",
-                "No"
+                "true",
+                "false"
             ]
         },
         "ExpressRouteEnvironmentName": {
@@ -102,27 +103,28 @@
         },
         "UseAutorizationKey": {
             "type": "String",
+            "defaultValue": "false",
             "allowedValues": [
-                "Yes",
-                "No"
+                "true",
+                "false"
             ],
             "metadata": {
-                "description": "Select Yes or Not for ExpressRoute Authorization Key"
+                "description": "Select true or falset for ExpressRoute Authorization Key"
             }
         },
         "AutorizationKey": {
             "type": "string",
             "defaultValue": "null",
             "metadata": {
-                "description": "Add your ExpressRoute Authorization Key in case you have answered Yes on Use Authorization Key"
+                "description": "Add your ExpressRoute Authorization Key in case you have answered true on Use Authorization Key"
             }
         },
         "deployAzureRouteServer": {
             "type": "string",
-            "defaultValue": "No",
+            "defaultValue": "false",
             "allowedValues": [
-                "Yes",
-                "No"
+                "true",
+                "false"
             ]
         },
         "location": {
@@ -490,7 +492,7 @@
             }
         },
         {
-            "condition": "[equals(parameters('deployOnpremisesVPNGateway'),'yes')]",
+            "condition": "[equals(parameters('deployOnpremisesVPNGateway'),'true')]",
             "name": "[variables('OnPrem').gatewayName]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
@@ -527,7 +529,7 @@
             }
         },
         {
-            "condition": "[equals(parameters('deployHubVPNGateway'),'yes')]",
+            "condition": "[equals(parameters('deployHubVPNGateway'),'true')]",
             "name": "[variables('Azure').gatewayName]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
@@ -564,7 +566,7 @@
             }
         },
         {
-            "condition": "[equals(parameters('deployOnpremisesVPNGateway'),'yes')]",
+            "condition": "[equals(parameters('deployOnpremisesVPNGateway'),'true')]",
             "name": "vpnconnections",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
@@ -598,7 +600,7 @@
             }
         },
         {
-            "condition": "[equals(parameters('deployHubERGateway'),'yes')]",
+            "condition": "[equals(parameters('deployHubERGateway'),'true')]",
             "name": "[variables('Azure').ergatewayName]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
@@ -623,7 +625,7 @@
             }
         },
         {
-            "condition": "[equals(parameters( 'connect-to-ExpressRouteCircuit'),'yes')]",
+            "condition": "[equals(parameters( 'connect-to-ExpressRouteCircuit'),'true')]",
             "name": "erconnections",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
@@ -656,7 +658,7 @@
             }
         },
         {
-            "condition": "[equals(parameters('deployAzureRouteServer'),'yes')]",
+            "condition": "[equals(parameters('deployAzureRouteServer'),'true')]",
             "name": "routeServer",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
@@ -680,7 +682,7 @@
                         "value": "[variables('Azure').routeserverSubnetName]"
                     },
                     "AllowBranchtoBranchTraffic": {
-                        "value": "True"
+                        "value": "true"
                     }
                 }
             }
