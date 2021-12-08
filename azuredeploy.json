@@ -17,7 +17,7 @@
         },
         "deployHubVPNGateway": {
             "type": "string",
-            "defaultValue": "true",
+            "defaultValue": "false",
             "allowedValues": [
                 "true",
                 "false"
@@ -25,7 +25,7 @@
         },
         "deployOnpremisesVPNGateway": {
             "type": "string",
-            "defaultValue": "true",
+            "defaultValue": "false",
             "allowedValues": [
                 "true",
                 "false"
@@ -58,7 +58,7 @@
         },
         "enableBgp": {
             "type": "string",
-            "defaultValue": "true",
+            "defaultValue": "false",
             "allowedValues": [
                 "true",
                 "false" 
@@ -73,7 +73,7 @@
         },
         "deployHubERGateway": {
             "type": "string",
-            "defaultValue": "true",
+            "defaultValue": "false",
             "allowedValues": [
                 "true",
                 "false"
@@ -81,7 +81,7 @@
         },
         "connect-to-ExpressRouteCircuit": {
             "type": "string",
-            "defaultValue": "true",
+            "defaultValue": "false",
             "allowedValues": [
                 "true",
                 "false"
@@ -138,9 +138,9 @@
             "type": "object",
             "defaultValue": {
                 "name": "OnPrem",
-                "addressSpacePrefix": "192.168.101.0/24",
-                "subnet1Prefix": "192.168.101.0/25",
-                "gatewaySubnetPrefix": "192.168.101.128/27",
+                "addressSpacePrefix": "192.168.100.0/24",
+                "subnet1Prefix": "192.168.100.0/25",
+                "gatewaySubnetPrefix": "192.168.100.128/27",
                 "asn": "65002"
             }
 
