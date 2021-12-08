@@ -226,6 +226,7 @@
             }
         },
         {
+            "condition": "[equals(parameters('deployOnpremisesVPNGateway'),'true')]",
             "name": "[concat(parameters('Onprem').name,'-vnet')]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
@@ -793,6 +794,7 @@
             }
         },
         {
+            "condition": "[equals(parameters('deployOnpremisesVPNGateway'),'true')]",
             "name": "[concat(parameters('Onprem').name,'-vm')]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
