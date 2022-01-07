@@ -1,0 +1,77 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.4.1124.51302",
+      "templateHash": "5320511474987266446"
+    }
+  },
+  "parameters": {
+    "ercircuitname": {
+      "type": "string"
+    },
+    "asn": {
+      "type": "int"
+    },
+    "primaryPeerAddressPrefix": {
+      "type": "string"
+    },
+    "secondaryPeerAddressPrefix": {
+      "type": "string"
+    },
+    "provider": {
+      "type": "string",
+      "defaultValue": "Megaport"
+    },
+    "peeringlocation": {
+      "type": "string"
+    },
+    "bandwidthInMbps": {
+      "type": "int"
+    }
+  },
+  "variables": {
+    "location": "[resourceGroup().location]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Network/expressRouteCircuits",
+      "apiVersion": "2021-03-01",
+      "name": "[parameters('ercircuitname')]",
+      "location": "[variables('location')]",
+      "sku": {
+        "name": "Standard_MeteredData",
+        "tier": "Standard",
+        "family": "MeteredData"
+      },
+      "properties": {
+        "peerings": [
+          {
+            "name": "AzurePrivatePeering",
+            "properties": {
+              "peeringType": "AzurePrivatePeering",
+              "peerASN": "[parameters('asn')]",
+              "primaryPeerAddressPrefix": "[parameters('primaryPeerAddressPrefix')]",
+              "secondaryPeerAddressPrefix": "[parameters('secondaryPeerAddressPrefix')]",
+              "state": "Enabled",
+              "vlanId": 100
+            }
+          }
+        ],
+        "serviceProviderProperties": {
+          "serviceProviderName": "[parameters('provider')]",
+          "peeringLocation": "[parameters('peeringlocation')]",
+          "bandwidthInMbps": "[parameters('bandwidthInMbps')]"
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "ErCircuitOutput": {
+      "type": "string",
+      "value": "[parameters('ercircuitname')]"
+    }
+  }
+}
