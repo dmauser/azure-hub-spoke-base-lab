@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.4.1124.51302",
-      "templateHash": "5320511474987266446"
+      "templateHash": "4657539785920168169"
     }
   },
   "parameters": {
@@ -30,6 +30,10 @@
     },
     "bandwidthInMbps": {
       "type": "int"
+    },
+    "sku": {
+      "type": "string",
+      "defaultValue": "Standard"
     }
   },
   "variables": {
@@ -42,8 +46,8 @@
       "name": "[parameters('ercircuitname')]",
       "location": "[variables('location')]",
       "sku": {
-        "name": "Standard_MeteredData",
-        "tier": "Standard",
+        "name": "[format('{0}_MeteredData', parameters('sku'))]",
+        "tier": "[parameters('sku')]",
         "family": "MeteredData"
       },
       "properties": {
@@ -72,6 +76,10 @@
     "ErCircuitOutput": {
       "type": "string",
       "value": "[parameters('ercircuitname')]"
+    },
+    "ErServiceKey": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.Network/expressRouteCircuits', parameters('ercircuitname'))).serviceKey]"
     }
   }
 }
