@@ -127,6 +127,17 @@
                 "false"
             ]
         },
+        "RouteServerB2B": {
+            "type": "string",
+            "defaultValue": "false",
+            "allowedValues": [
+                "true",
+                "false"
+            ],
+            "metadata": {
+                "description": "Allow RouterServer Branch to Branch Traffic"
+            }
+        },
         "location": {
             "type": "string",
             "metadata": {
@@ -683,7 +694,7 @@
                         "value": "[variables('Azure').routeserverSubnetName]"
                     },
                     "AllowBranchtoBranchTraffic": {
-                        "value": "true"
+                        "value": "[parameters('RouteServerB2B')]"
                     }
                 }
             }
