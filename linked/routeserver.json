@@ -8,10 +8,10 @@
         },
         "AllowBranchtoBranchTraffic": {
             "type": "String",
-            "defaultValue": "True",
+            "defaultValue": "true",
             "allowedValues": [
-                "True",
-                "False"
+                "true",
+                "false"
             ]
         },
         "vnetName": {
