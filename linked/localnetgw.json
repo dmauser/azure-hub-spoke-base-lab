@@ -1,0 +1,40 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "type": "string"
+        },
+        "gatewayIpAddress": {
+            "type": "string"
+        },
+        "asn": {
+            "type": "string"
+        },
+        "bgpPeeringAddress": {
+            "type": "string"
+        }
+    },
+    "variables": {
+        "location": "[resourceGroup().location]"
+    },
+    "resources": [
+        {
+            "apiVersion": "2020-05-01",
+            "type": "Microsoft.Network/localNetworkGateways",
+            "name": "[parameters('name')]",
+            "location": "[variables('location')]",
+            "comments": "Local Network Gateway",
+            "properties": {
+                "localNetworkAddressSpace": {
+                    "addressPrefixes": []
+                },
+                "gatewayIpAddress": "[parameters('gatewayIpAddress')]",
+                "bgpSettings": {
+                    "asn": "[parameters('asn')]",
+                    "bgpPeeringAddress": "[parameters('bgpPeeringAddress')]"
+                }
+            }
+        }
+    ]
+}
