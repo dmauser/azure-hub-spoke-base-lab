@@ -131,7 +131,7 @@
     "outputs": {
         "publicIP": {
             "type": "string",
-            "value": "[reference(variables('PublicIPName1')).publicIPAddress]"
+            "value": "[reference(variables('PublicIPName1')).ipAddress]"
         }
     }
 }
