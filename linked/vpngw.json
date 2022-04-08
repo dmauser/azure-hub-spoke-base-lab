@@ -130,7 +130,7 @@
     ],
     "outputs": {
         "GWpublicIP": {
-            "type": "string",
+            "type": "array",
             "value": "[reference(resourceId('Microsoft.Network/virtualNetworkGateways',parameters('gatewayName'))).bgpSettings]"
         }
     }
