@@ -50,7 +50,7 @@
                     "id": "[resourceId('Microsoft.Network/virtualNetworkGateways',parameters('OnPremGatewayName'))]"
                 },
                 "localNetworkGateway2": {
-                    "id": "[resourceId('Microsoft.Network/virtualNetworkGateways',parameters('LngAzure'))]"
+                    "id": "[resourceId('Microsoft.Network/localNetworkGateways',parameters('LngAzure'))]"
                 },
                 "connectionType": "Vnet2Vnet",
                 "routingWeight": 3,
@@ -69,7 +69,7 @@
                     "id": "[resourceId('Microsoft.Network/virtualNetworkGateways',parameters('AzureGatewayName'))]"
                 },
                 "virtualNetworkGateway2": {
-                    "id": "[resourceId('Microsoft.Network/virtualNetworkGateways',parameters('LngOnprem'))]"
+                    "id": "[resourceId('Microsoft.Network/localNetworkGateways',parameters('LngOnprem'))]"
                 },
                 "connectionType": "Vnet2Vnet",
                 "routingWeight": 3,
