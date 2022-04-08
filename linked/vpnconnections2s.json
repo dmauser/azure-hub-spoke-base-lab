@@ -52,10 +52,9 @@
                 "localNetworkGateway2": {
                     "id": "[resourceId('Microsoft.Network/localNetworkGateways',parameters('LngAzure'))]"
                 },
-                "connectionType": "Vnet2Vnet",
-                "routingWeight": 3,
+                "connectionType": "IPsec",
                 "sharedKey": "[parameters('sharedKey')]",
-                "enableBGP": true
+                "enableBGP": "[parameters('EnableBGP')]"
             }
         },
         {
@@ -71,8 +70,7 @@
                 "virtualNetworkGateway2": {
                     "id": "[resourceId('Microsoft.Network/localNetworkGateways',parameters('LngOnprem'))]"
                 },
-                "connectionType": "Vnet2Vnet",
-                "routingWeight": 3,
+                "connectionType": "IPsec",
                 "sharedKey": "[parameters('sharedKey')]",
                 "enableBGP": "[parameters('EnableBGP')]"
             }
