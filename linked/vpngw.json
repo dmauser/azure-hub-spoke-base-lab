@@ -130,8 +130,8 @@
     ],
     "outputs": {
         "GWpublicIP": {
-            "type": "array",
-            "value": "[reference(resourceId('Microsoft.Network/virtualNetworkGateways',parameters('gatewayName'))).bgpSettings]"
+            "type": "string",
+            "value": "[reference(resourceId('Microsoft.Network/virtualNetworkGateways',parameters('gatewayName'))).bgpSettings.bgpPeeringAddresses[0].tunnelIpAddresses[0]]"
         }
     }
 }
