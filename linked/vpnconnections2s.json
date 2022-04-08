@@ -67,7 +67,7 @@
                 "virtualNetworkGateway1": {
                     "id": "[resourceId('Microsoft.Network/virtualNetworkGateways',parameters('AzureGatewayName'))]"
                 },
-                "virtualNetworkGateway2": {
+                "localNetworkGateway2": {
                     "id": "[resourceId('Microsoft.Network/localNetworkGateways',parameters('LngOnprem'))]"
                 },
                 "connectionType": "IPsec",
