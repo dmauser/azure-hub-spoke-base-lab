@@ -19,6 +19,20 @@
         },
         "AzureConnectionName": {
             "type": "string"
+        },
+        "LngAzure": {
+            "type": "string"
+        },
+        "LngOnprem": {
+            "type": "string"
+        },
+        "EnableBGP": {
+            "type": "string",
+            "defaultValue": "false",
+            "allowedValues": [
+                "true",
+                "false"
+            ]
         }
     },
     "variables": {
@@ -35,8 +49,8 @@
                 "virtualNetworkGateway1": {
                     "id": "[resourceId('Microsoft.Network/virtualNetworkGateways',parameters('OnPremGatewayName'))]"
                 },
-                "virtualNetworkGateway2": {
-                    "id": "[resourceId('Microsoft.Network/virtualNetworkGateways',parameters('AzureGatewayName'))]"
+                "localNetworkGateway2": {
+                    "id": "[resourceId('Microsoft.Network/virtualNetworkGateways',parameters('LngAzure'))]"
                 },
                 "connectionType": "Vnet2Vnet",
                 "routingWeight": 3,
@@ -55,12 +69,12 @@
                     "id": "[resourceId('Microsoft.Network/virtualNetworkGateways',parameters('AzureGatewayName'))]"
                 },
                 "virtualNetworkGateway2": {
-                    "id": "[resourceId('Microsoft.Network/virtualNetworkGateways',parameters('OnPremGatewayName'))]"
+                    "id": "[resourceId('Microsoft.Network/virtualNetworkGateways',parameters('LngOnprem'))]"
                 },
                 "connectionType": "Vnet2Vnet",
                 "routingWeight": 3,
                 "sharedKey": "[parameters('sharedKey')]",
-                "enableBGP": true
+                "enableBGP": "[parameters('EnableBGP')]"
             }
         }
     ]
