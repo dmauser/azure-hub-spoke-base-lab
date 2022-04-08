@@ -8,13 +8,9 @@
         "gatewayIpAddress": {
             "type": "string"
         },
-        "bgpPeeringAddress": {
-            "type": "array",
-            "defaultValue": []
-        },
         "localNetworkAddressSpace": {
-            "type": "array",
-            "defaultValue": []
+            "type": "string",
+            "defaultValue": null
         }
     },
     "variables": {
@@ -28,9 +24,12 @@
             "location": "[variables('location')]",
             "comments": "Local Network Gateway",
             "properties": {
-                "localNetworkAddressSpace": "[parameters('localNetworkAddressSpace')]",
-                "gatewayIpAddress": "[parameters('gatewayIpAddress')]",
-                "bgpSettings": "[parameters('bgpPeeringAddress')]"
+                "localNetworkAddressSpace": {
+                    "addressPrefixes": [
+                        "[parameters('localNetworkAddressSpace')]"
+                    ]
+                },
+                "gatewayIpAddress": "[parameters('gatewayIpAddress')]"
             }
         }
     ]
