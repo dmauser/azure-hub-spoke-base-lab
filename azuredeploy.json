@@ -176,7 +176,7 @@
         }
     },
     "variables": {
-        "nsgname": "Default-NSG",
+        "nsgname": "[concat(resourceGroup().location,'-default-nsg')]",
         "artifactsLocation": "https://raw.githubusercontent.com/dmauser/azure-hub-spoke-base-lab/main/linked/",
         "erconnURI": "[concat(uri(variables('artifactsLocation'),'erconnection.json'))]",
         "ergwtemplateURI": "[concat(uri(variables('artifactsLocation'),'ergw.json'))]",
