@@ -18,6 +18,8 @@ This is a base ARM template script that deploys a Hub/Spoke and some other netwo
 
 Here is a screenshot example with the parameters and options to select before provisioning:
 
+![example](./media/arm-deployment.png)
+
 ## Deploy over CLI
 
 Here is an example for deploy this template over CLI with parameters:
