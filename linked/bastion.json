@@ -5,9 +5,6 @@
         "location": {
             "type": "String"
         },
-        "resourceGroup": {
-            "type": "String"
-        },
         "bastionHostName": {
             "type": "String"
         },
@@ -19,12 +16,17 @@
             "type": "Int",
             "defaultValue": "2"
         },
-        "publicIpAddressName": {
+        "virtualNetworkId": {
             "type": "String"
         }
     },
+    "variables": {
+        "publicIpAddressName": "[concat(parameters('bastionHostName'),'-pip')]",
+        "vnetId": "[parameters('virtualNetworkId')]",
+        "subnetRef": "[concat(variables('vnetId'), '/subnets/', 'AzureBastionSubnet')]"
+    },
     "resources": [
-		{
+        {
             "type": "Microsoft.Network/publicIpAddresses",
             "apiVersion": "2020-08-01",
             "name": "[concat(parameters('bastionHostName'), '-pip')]",
@@ -43,7 +45,7 @@
             "name": "[parameters('bastionHostName')]",
             "location": "[parameters('location')]",
             "dependsOn": [
-                "[resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', parameters('publicIpAddressName'))]"
+                "[resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', variables('publicIpAddressName'))]"
             ],
             "tags": {},
             "sku": {
@@ -55,10 +57,10 @@
                         "name": "IpConf",
                         "properties": {
                             "subnet": {
-                                "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks/subnets', 'onprem-vnet/AzureBastionSubnet')]"
+                                "id": "[variables('subnetRef')]"
                             },
                             "publicIPAddress": {
-                                "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', parameters('publicIpAddressName'))]"
+                                "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', variables('publicIpAddressName'))]"
                             }
                         }
                     }
