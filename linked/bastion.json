@@ -11,9 +11,6 @@
         "bastionHostName": {
             "type": "String"
         },
-        "subnetId": {
-            "type": "String"
-        },
         "bastionHostSku": {
             "type": "String",
             "defaultValue": "Basic"
@@ -22,29 +19,12 @@
             "type": "Int",
             "defaultValue": "2"
         },
-        "enableIpConnect": {
-            "type": "Bool",
-            "defaultValue": "disable"
-        },
-        "enableTunneling": {
-            "type": "Bool",
-            "defaultValue": "disable"
-        },
-        "enableKerberos": {
-            "type": "Bool",
-            "defaultValue": "disable"
-        },
-        "disableCopyPaste": {
-            "type": "Bool",
-            "defaultValue": "disable"
-        },
         "publicIpAddressName": {
-            "type": "String",
-            "defaultValue": "disable"
+            "type": "String"
         }
     },
     "resources": [
-        {
+		{
             "type": "Microsoft.Network/publicIpAddresses",
             "apiVersion": "2020-08-01",
             "name": "[concat(parameters('bastionHostName'), '-pip')]",
@@ -63,26 +43,22 @@
             "name": "[parameters('bastionHostName')]",
             "location": "[parameters('location')]",
             "dependsOn": [
-                "[resourceId(parameters('resourceGroup'), 'Microsoft.Network/publicIpAddresses', parameters('publicIpAddressName'))]"
+                "[resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', parameters('publicIpAddressName'))]"
             ],
             "tags": {},
             "sku": {
                 "name": "[parameters('bastionHostSku')]"
             },
             "properties": {
-                "enableIpConnect": "[parameters('enableIpConnect')]",
-                "enableTunneling": "[parameters('enableTunneling')]",
-                "enableKerberos": "[parameters('enableKerberos')]",
-                "disableCopyPaste": "[parameters('disableCopyPaste')]",
                 "ipConfigurations": [
                     {
                         "name": "IpConf",
                         "properties": {
                             "subnet": {
-                                "id": "[parameters('subnetId')]"
+                                "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks/subnets', 'onprem-vnet/AzureBastionSubnet')]"
                             },
                             "publicIPAddress": {
-                                "id": "[resourceId(parameters('resourceGroup'), 'Microsoft.Network/publicIpAddresses', parameters('publicIpAddressName'))]"
+                                "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', parameters('publicIpAddressName'))]"
                             }
                         }
                     }
