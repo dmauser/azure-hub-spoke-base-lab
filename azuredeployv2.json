@@ -455,7 +455,8 @@
             "apiVersion": "2020-10-01",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').spoke1Name,'-vnet'))]",
-                "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').hubName,'-vnet'))]"
+                "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').hubName,'-vnet'))]",
+                "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').hubName,'-bastionsubnet'))]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -489,7 +490,8 @@
             "apiVersion": "2020-10-01",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').spoke2Name,'-vnet'))]",
-                "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').hubName,'-vnet'))]"
+                "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').hubName,'-vnet'))]",
+                "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').hubName,'-bastionsubnet'))]"
             ],
             "properties": {
                 "mode": "Incremental",
