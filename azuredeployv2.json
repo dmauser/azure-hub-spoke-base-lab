@@ -960,7 +960,7 @@
                         "value": "[parameters('location')]"
                     },
                     "bastionHostName": {
-                        "value": "[concat(parameters('Onprem').name, '-bastion')]"
+                        "value": "[concat(parameters('Azure').hubName, '-bastion')]"
                     },
                     "virtualNetworkId": {
                         "value": "[resourceId('Microsoft.Network/virtualNetworks/', concat(parameters('Azure').hubName, '-vnet'))]"
