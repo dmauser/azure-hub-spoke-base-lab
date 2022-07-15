@@ -523,7 +523,8 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments', concat(parameters('Onprem').name,'-vnet'))]"
+                "[resourceId('Microsoft.Resources/deployments', concat(parameters('Onprem').name,'-vnet'))]",
+                "[resourceId('Microsoft.Resources/deployments', concat(parameters('Onprem').name,'-bastionsubnet'))]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -560,7 +561,8 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').hubName,'-vnet'))]"
+                "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').hubName,'-vnet'))]",
+                "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').hubName,'-bastionsubnet'))]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -908,7 +910,7 @@
                 }
             }
         },
-                {
+        {
             "condition": "[equals(parameters('deployBastion'),'true')]",
             "name": "[concat(parameters('Azure').hubName,'-bastionsubnet')]",
             "type": "Microsoft.Resources/deployments",
