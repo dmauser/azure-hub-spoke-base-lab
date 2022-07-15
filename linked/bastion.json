@@ -12,10 +12,6 @@
             "type": "String",
             "defaultValue": "Basic"
         },
-        "bastionHostScaleUnits": {
-            "type": "Int",
-            "defaultValue": "2"
-        },
         "virtualNetworkId": {
             "type": "String"
         }
@@ -64,8 +60,7 @@
                             }
                         }
                     }
-                ],
-                "scaleUnits": "[parameters('bastionHostScaleUnits')]"
+                ]
             }
         }
     ]
