@@ -15,6 +15,14 @@
                 "description": "The default is to allow SSH access from any source Public IP (*). To restric access it, please specify your Public IP address with CIDR. For single IP add 1.1.1.1/32."
             }
         },
+        "deployBastion": {
+            "type": "string",
+            "defaultValue": "false",
+            "allowedValues": [
+                "true",
+                "false"
+            ]
+        },
         "deployHubVPNGateway": {
             "type": "string",
             "defaultValue": "false",
@@ -61,8 +69,8 @@
             "defaultValue": "false",
             "allowedValues": [
                 "true",
-                "false" 
-            ]           
+                "false"
+            ]
         },
         "sharedKey": {
             "type": "securestring",
@@ -150,8 +158,9 @@
             "defaultValue": {
                 "name": "OnPrem",
                 "addressSpacePrefix": "192.168.100.0/24",
-                "subnet1Prefix": "192.168.100.0/25",
+                "subnet1Prefix": "192.168.100.0/27",
                 "gatewaySubnetPrefix": "192.168.100.128/27",
+                "bastionSubnetPrefix": "192.168.100.192/26",
                 "asn": "65002"
             }
 
@@ -166,6 +175,7 @@
                 "gatewaySubnetPrefix": "10.0.0.32/27",
                 "AzureFirewallPrefix": "10.0.0.64/26",
                 "rssubnetPrefix": "10.0.0.128/27",
+                "bastionSubnetPrefix": "10.0.0.192/26",
                 "spoke1Name": "Az-Spk1",
                 "spoke1AddressSpacePrefix": "10.0.1.0/24",
                 "spoke1Subnet1Prefix": "10.0.1.0/27",
@@ -190,6 +200,8 @@
         "routeServerURI": "[concat(uri(variables('artifactsLocation'),'routeserver.json'))]",
         "vmtemplateURI": "[concat(uri(variables('artifactsLocation'),'vm.json'))]",
         "vnetpeeringURI": "[concat(uri(variables('artifactsLocation'),'vnet-peering.json'))]",
+        "subnettemplateURI": "[concat(uri(variables('artifactsLocation'),'subnet.json'))]",
+        "bastiontemplateURI": "[concat(uri(variables('artifactsLocation'),'bastion.json'))]",
         "OnPrem": {
             "subnetName": "subnet1",
             "gatewayName": "[concat(parameters('Onprem').name,'-vpngw')]",
@@ -838,6 +850,114 @@
                     },
                     "location": {
                         "value": "[parameters('location')]"
+                    }
+                }
+            }
+        },
+        {
+            "condition": "[equals(parameters('deployBastion'),'true')]",
+            "name": "[concat(parameters('Onprem').name,'-bastionsubnet')]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2020-10-01",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', concat(parameters('Onprem').name,'-vnet'))]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('subnettemplateURI')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "vnetName": {
+                        "value": "[concat(parameters('Onprem').name,'-vnet')]"
+                    },
+                    "subnetName": {
+                        "value": "AzureBastionSubnet"
+                    },
+                    "addressPrefix": {
+                        "value": "[parameters('OnPrem').bastionSubnetPrefix]"
+                    }
+                }
+            }
+        },
+        {
+            "condition": "[equals(parameters('deployBastion'),'true')]",
+            "name": "[concat(parameters('Onprem').name,'-bastion')]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2020-10-01",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', concat(parameters('Onprem').name,'-bastionsubnet'))]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('bastiontemplateURI')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "location": {
+                        "value": "[parameters('location')]"
+                    },
+                    "bastionHostName": {
+                        "value": "[concat(parameters('Onprem').name, '-bastion')]"
+                    },
+                    "virtualNetworkId": {
+                        "value": "[resourceId('Microsoft.Network/virtualNetworks/', concat(parameters('Onprem').name, '-vnet'))]"
+                    }
+                }
+            }
+        },
+                {
+            "condition": "[equals(parameters('deployBastion'),'true')]",
+            "name": "[concat(parameters('Azure').hubName,'-bastionsubnet')]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2020-10-01",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').hubName,'-vnet'))]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('subnettemplateURI')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "vnetName": {
+                        "value": "[concat(parameters('Azure').hubName,'-vnet')]"
+                    },
+                    "subnetName": {
+                        "value": "AzureBastionSubnet"
+                    },
+                    "addressPrefix": {
+                        "value": "[parameters('Azure').bastionSubnetPrefix]"
+                    }
+                }
+            }
+        },
+        {
+            "condition": "[equals(parameters('deployBastion'),'true')]",
+            "name": "[concat(parameters('Azure').hubName,'-bastion')]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2020-10-01",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').hubName,'-bastionsubnet'))]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('bastiontemplateURI')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "location": {
+                        "value": "[parameters('location')]"
+                    },
+                    "bastionHostName": {
+                        "value": "[concat(parameters('Onprem').name, '-bastion')]"
+                    },
+                    "virtualNetworkId": {
+                        "value": "[resourceId('Microsoft.Network/virtualNetworks/', concat(parameters('Azure').hubName, '-vnet'))]"
                     }
                 }
             }
