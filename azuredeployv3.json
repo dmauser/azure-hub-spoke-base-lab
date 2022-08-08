@@ -462,7 +462,8 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').spoke1Name,'-vnet'))]",
                 "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').hubName,'-vnet'))]",
-                "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').hubName,'-bastionsubnet'))]"
+                "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').hubName,'-bastionsubnet'))]",
+                "[resourceId('Microsoft.Resources/deployments', 'routeServer')]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -497,7 +498,8 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').spoke2Name,'-vnet'))]",
                 "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').hubName,'-vnet'))]",
-                "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').hubName,'-bastionsubnet'))]"
+                "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').hubName,'-bastionsubnet'))]",
+                "[resourceId('Microsoft.Resources/deployments', 'routeServer')]"
             ],
             "properties": {
                 "mode": "Incremental",
