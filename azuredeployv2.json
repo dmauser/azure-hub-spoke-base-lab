@@ -15,6 +15,10 @@
                 "description": "The default is to allow SSH access from any source Public IP (*). To restric access it, please specify your Public IP address with CIDR. For single IP add 1.1.1.1/32."
             }
         },
+        "virtualMachineSize": {
+            "type": "string",
+            "defaultValue": "Standard_B1ms"
+        }, 
         "deployBastion": {
             "type": "string",
             "defaultValue": "false",
@@ -737,6 +741,9 @@
                     "adminPassword": {
                         "value": "[parameters('VmAdminPassword')]"
                     },
+                    "virtualMachineSize": {
+                        "value": "[parameters('virtualMachineSize')]"
+                    },
                     "subnetName": {
                         "value": "[variables('Azure').subnetName]"
                     },
@@ -771,6 +778,9 @@
                     },
                     "adminPassword": {
                         "value": "[parameters('VmAdminPassword')]"
+                    },
+                    "virtualMachineSize": {
+                        "value": "[parameters('virtualMachineSize')]"
                     },
                     "subnetName": {
                         "value": "[variables('Azure').spoke1subnetName]"
@@ -807,6 +817,9 @@
                     "adminPassword": {
                         "value": "[parameters('VmAdminPassword')]"
                     },
+                    "virtualMachineSize": {
+                        "value": "[parameters('virtualMachineSize')]"
+                    },
                     "subnetName": {
                         "value": "[variables('Azure').spoke2subnetName]"
                     },
@@ -842,6 +855,9 @@
                     },
                     "adminPassword": {
                         "value": "[parameters('VmAdminPassword')]"
+                    },
+                    "virtualMachineSize": {
+                        "value": "[parameters('virtualMachineSize')]"
                     },
                     "subnetName": {
                         "value": "[variables('OnPrem').subnetName]"
