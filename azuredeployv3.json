@@ -392,7 +392,7 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('Azure').gatewayName)]",
                 "[resourceId('Microsoft.Resources/deployments', variables('Azure').ergatewayName)]",
-                "[resourceId('Microsoft.Resources/deployments', variables('Azure').routeserverName)]"
+                "[resourceId('Microsoft.Resources/deployments', 'routeServer')]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -427,7 +427,7 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('Azure').gatewayName)]",
                 "[resourceId('Microsoft.Resources/deployments', variables('Azure').ergatewayName)]",
-                "[resourceId('Microsoft.Resources/deployments', variables('Azure').routeserverName)]"
+                "[resourceId('Microsoft.Resources/deployments', 'routeServer')]"
             ],
             "properties": {
                 "mode": "Incremental",
