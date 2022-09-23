@@ -392,6 +392,7 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('Azure').gatewayName)]",
                 "[resourceId('Microsoft.Resources/deployments', variables('Azure').ergatewayName)]",
+                "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').hubName,'-bastionsubnet'))]",
                 "[resourceId('Microsoft.Resources/deployments', 'routeServer')]"
             ],
             "properties": {
@@ -427,6 +428,7 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('Azure').gatewayName)]",
                 "[resourceId('Microsoft.Resources/deployments', variables('Azure').ergatewayName)]",
+                "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').hubName,'-bastionsubnet'))]",
                 "[resourceId('Microsoft.Resources/deployments', 'routeServer')]"
             ],
             "properties": {
