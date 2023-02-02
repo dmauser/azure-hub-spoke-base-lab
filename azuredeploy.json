@@ -507,7 +507,7 @@
         },
         {
             "condition": "[equals(parameters('deployOnpremisesVPNGateway'),'true')]",
-            "name": "[variables('OnPrem').gatewayName]",
+            "name": "[concat(parameters('Onprem').name,'-vpngw')]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "dependsOn": [
@@ -544,7 +544,7 @@
         },
         {
             "condition": "[equals(parameters('deployHubVPNGateway'),'true')]",
-            "name": "[variables('Azure').gatewayName]",
+            "name": "[concat(parameters('Azure').name,'-vpngw')]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "dependsOn": [
@@ -581,7 +581,7 @@
         },
         {
             "condition": "[equals(parameters('deployOnpremisesVPNGateway'),'true')]",
-            "name": "vpnconnections",
+            "name": "[concat(parameters('Azure').hubName, '-vpnconnections')]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "dependsOn": [
@@ -615,7 +615,7 @@
         },
         {
             "condition": "[equals(parameters('deployHubERGateway'),'true')]",
-            "name": "[variables('Azure').ergatewayName]",
+            "name": "[concat(parameters('Azure').hubName, '-ergw')]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "dependsOn": [
@@ -640,7 +640,7 @@
         },
         {
             "condition": "[equals(parameters( 'connect-to-ExpressRouteCircuit'),'true')]",
-            "name": "erconnections",
+            "name": "[concat(parameters('Azure').hubName, '-erconnections')]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "dependsOn": [
@@ -673,7 +673,7 @@
         },
         {
             "condition": "[equals(parameters('deployAzureRouteServer'),'true')]",
-            "name": "routeServer",
+            "name": "[concat(parameters('Azure').hubName, '-routeServer')]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "dependsOn": [
