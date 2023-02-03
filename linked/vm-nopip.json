@@ -32,8 +32,7 @@
     "variables": {
         "networkInterfaceName": "[concat(parameters('virtualMachineName'),'-nic')]",
         "vnetId": "[parameters('virtualNetworkId')]",
-        "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]",
-        "storageAccountName": "[concat('storage', uniqueString(resourceGroup().id))]"
+        "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]"
     },
     "resources": [
         {
