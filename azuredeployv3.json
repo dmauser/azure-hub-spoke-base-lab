@@ -8,16 +8,18 @@
         "VmAdminPassword": {
             "type": "secureString"
         },
-        "Restrict_SSH_VM_AccessByPublicIP": {
-            "type": "string",
-            "defaultValue": "*",
-            "metadata": {
-                "description": "The default is to allow SSH access from any source Public IP (*). To restric access it, please specify your Public IP address with CIDR. For single IP add 1.1.1.1/32."
-            }
-        },
+
         "virtualMachineSize": {
             "type": "string",
             "defaultValue": "Standard_B1ms"
+        },
+        "virtualMachinePublicIP": {
+            "type": "string",
+            "defaultValue": "true",
+            "allowedValues": [
+                "true",
+                "false"
+            ]
         },
         "deployBastion": {
             "type": "string",
@@ -26,6 +28,13 @@
                 "true",
                 "false"
             ]
+        },
+        "Restrict_SSH_VM_AccessByPublicIP": {
+            "type": "string",
+            "defaultValue": "*",
+            "metadata": {
+                "description": "The default is to allow SSH access from any source Public IP (*). To restric access it, please specify your Public IP address with CIDR. For single IP add 1.1.1.1/32."
+            }
         },
         "deployHubVPNGateway": {
             "type": "string",
@@ -203,6 +212,7 @@
         "vpnconnURI": "[concat(uri(variables('artifactsLocation'),'vpnconnection.json'))]",
         "routeServerURI": "[concat(uri(variables('artifactsLocation'),'routeserver.json'))]",
         "vmtemplateURI": "[concat(uri(variables('artifactsLocation'),'vm.json'))]",
+        "vmnopiptemplateURI": "[concat(uri(variables('artifactsLocation'),'vm-nopip.json'))]",
         "vnetpeeringURI": "[concat(uri(variables('artifactsLocation'),'vnet-peering.json'))]",
         "subnettemplateURI": "[concat(uri(variables('artifactsLocation'),'subnet.json'))]",
         "bastiontemplateURI": "[concat(uri(variables('artifactsLocation'),'bastion.json'))]",
@@ -392,7 +402,7 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('Azure').gatewayName)]",
                 "[resourceId('Microsoft.Resources/deployments', variables('Azure').ergatewayName)]",
-                "[resourceId('Microsoft.Resources/deployments', 'routeServer')]"
+                "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').Hubname,'-routeServer'))]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -427,7 +437,7 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('Azure').gatewayName)]",
                 "[resourceId('Microsoft.Resources/deployments', variables('Azure').ergatewayName)]",
-                "[resourceId('Microsoft.Resources/deployments', 'routeServer')]"
+                "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').Hubname,'-routeServer'))]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -463,7 +473,7 @@
                 "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').spoke1Name,'-vnet'))]",
                 "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').hubName,'-vnet'))]",
                 "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').hubName,'-bastionsubnet'))]",
-                "[resourceId('Microsoft.Resources/deployments', 'routeServer')]"
+                "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').Hubname,'-routeServer'))]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -499,7 +509,7 @@
                 "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').spoke2Name,'-vnet'))]",
                 "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').hubName,'-vnet'))]",
                 "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').hubName,'-bastionsubnet'))]",
-                "[resourceId('Microsoft.Resources/deployments', 'routeServer')]"
+                "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').Hubname,'-routeServer'))]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -529,7 +539,7 @@
         },
         {
             "condition": "[equals(parameters('deployOnpremisesVPNGateway'),'true')]",
-            "name": "[variables('OnPrem').gatewayName]",
+            "name": "[concat(parameters('Onprem').name,'-vpngw')]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "dependsOn": [
@@ -567,7 +577,7 @@
         },
         {
             "condition": "[equals(parameters('deployHubVPNGateway'),'true')]",
-            "name": "[variables('Azure').gatewayName]",
+            "name": "[concat(parameters('Azure').Hubname,'-vpngw')]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "dependsOn": [
@@ -605,7 +615,7 @@
         },
         {
             "condition": "[equals(parameters('deployOnpremisesVPNGateway'),'true')]",
-            "name": "vpnconnections",
+            "name": "[concat(parameters('Azure').Hubname,'-vpnconnections')]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "dependsOn": [
@@ -639,7 +649,7 @@
         },
         {
             "condition": "[equals(parameters('deployHubERGateway'),'true')]",
-            "name": "[variables('Azure').ergatewayName]",
+            "name": "[concat(parameters('Azure').Hubname,'-ergw')]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "dependsOn": [
@@ -664,7 +674,7 @@
         },
         {
             "condition": "[equals(parameters( 'connect-to-ExpressRouteCircuit'),'true')]",
-            "name": "erconnections",
+            "name": "[concat(parameters('Azure').Hubname,'-erconnections')]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "dependsOn": [
@@ -697,11 +707,11 @@
         },
         {
             "condition": "[equals(parameters('deployAzureRouteServer'),'true')]",
-            "name": "routeServer",
+            "name": "[concat(parameters('Azure').Hubname,'-routeServer')]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments', 'vpnconnections')]"
+                "[resourceId('Microsoft.Resources/deployments', concat(parameters('Azure').Hubname,'-vpnconnections'))]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -735,7 +745,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[variables('vmtemplateURI')]",
+                    "uri": "[if(equals(parameters('virtualMachinePublicIP'), 'true'), variables('vmtemplateURI'), variables('vmnopiptemplateURI'))]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
@@ -773,7 +783,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[variables('vmtemplateURI')]",
+                    "uri": "[if(equals(parameters('virtualMachinePublicIP'), 'true'), variables('vmtemplateURI'), variables('vmnopiptemplateURI'))]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
@@ -811,7 +821,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[variables('vmtemplateURI')]",
+                    "uri": "[if(equals(parameters('virtualMachinePublicIP'), 'true'), variables('vmtemplateURI'), variables('vmnopiptemplateURI'))]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
@@ -850,7 +860,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[variables('vmtemplateURI')]",
+                    "uri": "[if(equals(parameters('virtualMachinePublicIP'), 'true'), variables('vmtemplateURI'), variables('vmnopiptemplateURI'))]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
