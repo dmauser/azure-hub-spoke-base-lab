@@ -544,7 +544,7 @@
         },
         {
             "condition": "[equals(parameters('deployHubVPNGateway'),'true')]",
-            "name": "[concat(parameters('Azure').name,'-vpngw')]",
+            "name": "[concat(parameters('Azure').hubName,'-vpngw')]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "dependsOn": [
