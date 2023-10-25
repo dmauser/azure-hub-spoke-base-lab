@@ -188,10 +188,10 @@
                 "gatewaySubnetPrefix": "10.0.0.32/27",
                 "rssubnetPrefix": "10.0.0.128/27",
                 "bastionSubnetPrefix": "10.0.0.192/26",
-                "spoke1Name": "Az-Spk1",
+                "spoke1Name": "az-spk1",
                 "spoke1AddressSpacePrefix": "10.0.1.0/24",
                 "spoke1Subnet1Prefix": "10.0.1.0/27",
-                "spoke2Name": "Az-Spk2",
+                "spoke2Name": "az-spk2",
                 "spoke2AddressSpacePrefix": "10.0.2.0/24",
                 "spoke2Subnet1Prefix": "10.0.2.0/27"
             }
