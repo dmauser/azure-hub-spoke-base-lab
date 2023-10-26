@@ -210,7 +210,7 @@
         "aavpngwtemplateURI": "[concat(uri(variables('artifactsLocation'),'aa-vpngw.json'))]",
         "vpnconnURI": "[concat(uri(variables('artifactsLocation'),'vpnconnection.json'))]",
         "routeServerURI": "[concat(uri(variables('artifactsLocation'),'routeserver.json'))]",
-        "vmtemplateURI": "[concat(uri(variables('artifactsLocation'),'vm.json'))]",
+        "vmtemplateURI": "[concat(uri(variables('artifactsLocation'),'vmv2.json'))]",
         "vmnopiptemplateURI": "[concat(uri(variables('artifactsLocation'),'vm-nopip.json'))]",
         "vnetpeeringURI": "[concat(uri(variables('artifactsLocation'),'vnet-peering.json'))]",
         "subnettemplateURI": "[concat(uri(variables('artifactsLocation'),'subnet.json'))]",
