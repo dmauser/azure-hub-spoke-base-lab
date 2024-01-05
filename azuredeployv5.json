@@ -577,6 +577,9 @@
                     },
                     "vnetName": {
                         "value": "[concat(parameters('Onprem').name,'-vnet')]"
+                    },
+                    "deployVPNGatewaytype": {
+                        "value": "[variables('OnPrem').deployVPNGatewaytype]"
                     }
                 }
 
@@ -653,9 +656,6 @@
                     },
                     "AzureConnectionName": {
                         "value": "[variables('Azure').connectionName]"
-                    },
-                    "deployVPNGatewaytype": {
-                        "value": "[variables('OnPrem').deployVPNGatewaytype]"
                     }
                 }
             }
