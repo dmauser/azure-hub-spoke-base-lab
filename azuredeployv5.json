@@ -52,9 +52,8 @@
                 "Active-Passive"
             ],
             "metadata": {
-                "description": "Define if Hub Gateway will be Active-Active or Active-Passive."
+                "description": "Define when Hub VPN Gateway is Active-Active or Active-Passive"
             }
-            
         },
         "deployOnpremisesVPNGateway": {
             "type": "string",
