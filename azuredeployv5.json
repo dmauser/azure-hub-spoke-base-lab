@@ -44,7 +44,7 @@
                 "false"
             ]
         },
-        "deployVPNGatewaytype": {
+        "HubVPNGatewaytype": {
             "type": "string",
             "defaultValue": "Active-Active",
             "allowedValues": [
@@ -228,7 +228,7 @@
         "OnPrem": {
             "subnetName": "subnet1",
             "gatewayName": "[concat(parameters('Onprem').name,'-vpngw')]",
-            "deployVPNGatewaytype": "Active-Passive",
+            "HubVPNGatewaytype": "Active-Passive",
             "gatewayPublicIPName": "[concat(parameters('Onprem').name,'-vpngw-pip')]",
             "connectionName": "[concat(parameters('Onprem').name,'-to-',concat(parameters('Azure').hubname))]"
         },
@@ -578,8 +578,8 @@
                     "vnetName": {
                         "value": "[concat(parameters('Onprem').name,'-vnet')]"
                     },
-                    "deployVPNGatewaytype": {
-                        "value": "[variables('OnPrem').deployVPNGatewaytype]"
+                    "HubVPNGatewaytype": {
+                        "value": "[variables('OnPrem').HubVPNGatewaytype]"
                     }
                 }
 
@@ -619,8 +619,8 @@
                     "vnetName": {
                         "value": "[concat(parameters('Azure').hubName, '-vnet')]"
                     },
-                    "deployVPNGatewaytype": {
-                        "value": "[parameters('deployVPNGatewaytype')]"
+                    "HubVPNGatewaytype": {
+                        "value": "[parameters('HubVPNGatewaytype')]"
                     }
                 }
 

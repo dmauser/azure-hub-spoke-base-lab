@@ -9,7 +9,7 @@
                 "description": "The shared key used to establish connection between the two vNet Gateways. When you choose Active/Active an AA it will be added in front of the name"
             }
         },
-        "deployVPNGatewaytype": {
+        "HubVPNGatewaytype": {
             "type": "string",
             "defaultValue": "Active-Active",
             "allowedValues": [
@@ -98,7 +98,7 @@
             }
         },
         {
-            "condition": "[equals(parameters('deployVPNGatewaytype'),'Active-Active')]",
+            "condition": "[equals(parameters('HubVPNGatewaytype'),'Active-Active')]",
             "apiVersion": "2020-05-01",
             "type": "Microsoft.Network/publicIPAddresses",
             "name": "[variables('PublicIPName2')]",
@@ -112,7 +112,7 @@
             }
         },
         {
-            "condition": "[equals(parameters('deployVPNGatewaytype'),'Active-Active')]",
+            "condition": "[equals(parameters('HubVPNGatewaytype'),'Active-Active')]",
             "apiVersion": "2020-05-01",
             "type": "Microsoft.Network/virtualNetworkGateways",
             "name": "[parameters('gatewayName')]",
@@ -177,7 +177,7 @@
             }
         },
         {
-            "condition": "[equals(parameters('deployVPNGatewaytype'),'Active-Passive')]",
+            "condition": "[equals(parameters('HubVPNGatewaytype'),'Active-Passive')]",
             "apiVersion": "2020-05-01",
             "type": "Microsoft.Network/virtualNetworkGateways",
             "name": "[parameters('gatewayName')]",
