@@ -93,7 +93,7 @@
                 "publicIPAllocationMethod": "Dynamic"
             },
             "sku": {
-                "name": "Basic",
+                "name": "Standard",
                 "tier": "Regional"
             }
         },
@@ -107,7 +107,7 @@
                 "publicIPAllocationMethod": "Dynamic"
             },
             "sku": {
-                "name": "Basic",
+                "name": "Standard",
                 "tier": "Regional"
             }
         },
