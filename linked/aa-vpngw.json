@@ -83,7 +83,7 @@
             "location": "[variables('location')]",
             "comments": "This is the public IP for vNet Gateway 2",
             "properties": {
-                "publicIPAllocationMethod": "Dynamic"
+                "publicIPAllocationMethod": "Static"
             },
             "sku": {
                 "name": "Standard",
@@ -97,7 +97,7 @@
             "location": "[variables('location')]",
             "comments": "This is the public IP for vNet Gateway 2",
             "properties": {
-                "publicIPAllocationMethod": "Dynamic"
+                "publicIPAllocationMethod": "Static"
             },
             "sku": {
                 "name": "Standard",
