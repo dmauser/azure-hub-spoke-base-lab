@@ -70,7 +70,7 @@
                 "publicIPAllocationMethod": "Dynamic"
             },
             "sku": {
-                "name": "Basic"
+                "name": "Standard"
             }
         },
         {
