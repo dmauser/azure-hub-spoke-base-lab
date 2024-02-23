@@ -249,7 +249,7 @@
     },
     "resources": [
         {
-            "name": "NSG",
+            "name": "[concat(parameters('location'),'-default-nsg')]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "properties": {
