@@ -10,7 +10,7 @@
         },
         "bastionHostSku": {
             "type": "String",
-            "defaultValue": "Basic"
+            "defaultValue": "Standard"
         },
         "virtualNetworkId": {
             "type": "String"
@@ -48,6 +48,8 @@
                 "name": "[parameters('bastionHostSku')]"
             },
             "properties": {
+                "enableTunneling": true,
+                "enableIpConnect": true,
                 "ipConfigurations": [
                     {
                         "name": "IpConf",
