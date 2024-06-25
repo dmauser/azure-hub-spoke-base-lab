@@ -49,7 +49,6 @@
             },
             "properties": {
                 "enableTunneling": true,
-                "enableIpConnect": true,
                 "ipConfigurations": [
                     {
                         "name": "IpConf",
