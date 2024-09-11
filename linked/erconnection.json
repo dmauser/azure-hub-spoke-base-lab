@@ -36,7 +36,7 @@
                 "virtualNetworkGateway1": {
                     "id": "[resourceId('Microsoft.Network/virtualNetworkGateways', parameters('expressrouteGatewayName'))]"
                 },
-                "authorizationKey": "[if(equals(parameters('UseAutorizationKey'), 'Yes'), parameters('AutorizationKey'), json('null'))]",
+                "authorizationKey": "[if(equals(parameters('UseAutorizationKey'), 'true'), parameters('AutorizationKey'), json('null'))]",
                 "connectionType": "ExpressRoute",
                 "routingWeight": 0,
                 "enableBgp": false,
