@@ -39,7 +39,7 @@
                         "properties": {
                             "addressPrefix": "[parameters('subnetPrefix')]",
                             "networkSecurityGroup": {
-                                "id": "[reference(resourceId('Microsoft.Resources/deployments', 'NSG'), '2020-05-01').outputs.nsgResourceID.value]"
+                                "id": "[reference(resourceId('Microsoft.Resources/deployments', concat(resourceGroup().location,'-default-nsg')), '2020-05-01').outputs.nsgResourceID.value]"
                             }
                         }
                     },
